@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xtlog.android.shanxunmm.MainActivity">
+
+    <TextView
+        android:id="@+id/main_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:gravity="bottom|center"
+        android:textSize="60sp"
+        android:textColor="@color/colorWhite"
+        tools:text="123456"/>
+    <TextView
+        android:id="@+id/main_usable_text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/main_password_text"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"
+        android:textSize="20sp"
+        tools:text="状态说明"/>
+
+    <Button
+        style=""
+        android:id="@+id/main_get_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_usable_text"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="获取密码"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        />
+</RelativeLayout>

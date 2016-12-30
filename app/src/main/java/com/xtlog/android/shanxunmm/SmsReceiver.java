@@ -1,0 +1,73 @@
+package com.xtlog.android.shanxunmm;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.telephony.SmsMessage;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Date;
+
+/**
+ * Created by admin on 2016/12/30.
+ */
+
+public class SmsReceiver extends BroadcastReceiver {
+
+    private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
+    private static final String TAG = "SmsReceiver";
+
+
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.i(TAG, "onReceive: run");
+        // TODO Auto-generated method stub
+        if(SMS_RECEIVED.equals(intent.getAction())){
+            Bundle bundle = intent.getExtras();
+            if(bundle != null){
+                Object[] pdus = (Object[])bundle.get("pdus");
+
+                SmsMessage[] msg = new SmsMessage[pdus.length];
+                for(int i = 0 ;i<pdus.length;i++){
+                    msg[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
+                }
+
+                SmsMessage sx = msg[0];//获取闪讯短信
+                String password = sx.getDisplayMessageBody().substring(18,24);
+                String dateStr = sx.getDisplayMessageBody().substring(28,47);
+                long date = getLongFromString(dateStr);
+                //保存数据
+                SharedPreferences.Editor editor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+                editor.putString("password", password);
+                editor.putLong("date", date);
+                editor.apply();
+
+
+                //更新UI
+                abortBroadcast();
+                MainActivity.sPasswordText.setText(password);
+                MainActivity.sUsableText.setText("密码有效");
+
+
+
+
+            }
+        }
+    }
+
+    private long getLongFromString(String date){
+        Date passwordDate = new Date();
+        passwordDate.setYear(Integer.parseInt(date.substring(0,4)));
+        passwordDate.setMonth(Integer.parseInt(date.substring(5,7)));
+        passwordDate.setDate(Integer.parseInt(date.substring(8,10)));
+        passwordDate.setHours(Integer.parseInt(date.substring(11,13)));
+        passwordDate.setMinutes(Integer.parseInt(date.substring(14,16)));
+        passwordDate.setSeconds(Integer.parseInt(date.substring(17,19)));
+        return passwordDate.getTime();
+    }
+}
