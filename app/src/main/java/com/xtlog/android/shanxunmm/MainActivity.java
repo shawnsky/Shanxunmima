@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SEND_ACTION), 0);
         PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0,
                 new Intent(SMS_DELIVERED_ACTION), 0);
-        smsManager.sendTextMessage("1065930051", null,
+        smsManager.sendTextMessage("106593005", null,
                 "mm", sentIntent, deliveryIntent);
         Log.d(TAG,"sent message.");
     }

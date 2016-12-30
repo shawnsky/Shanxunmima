@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class SmsDeliveryStatusReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "SmsDeliveryStatusReceiv";
+    private static final String TAG = "SmsDeliveryStatus";
 
     @Override
     public void onReceive(Context context, Intent intent) {
