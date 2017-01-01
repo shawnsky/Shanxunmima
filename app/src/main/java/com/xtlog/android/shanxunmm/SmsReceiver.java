@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -61,13 +62,15 @@ public class SmsReceiver extends BroadcastReceiver {
     }
 
     private long getLongFromString(String date){
-        Date passwordDate = new Date();
-        passwordDate.setYear(Integer.parseInt(date.substring(0,4)));
-        passwordDate.setMonth(Integer.parseInt(date.substring(5,7)));
-        passwordDate.setDate(Integer.parseInt(date.substring(8,10)));
-        passwordDate.setHours(Integer.parseInt(date.substring(11,13)));
-        passwordDate.setMinutes(Integer.parseInt(date.substring(14,16)));
-        passwordDate.setSeconds(Integer.parseInt(date.substring(17,19)));
-        return passwordDate.getTime();
+        Calendar c = Calendar.getInstance();
+        int year = Integer.parseInt(date.substring(0,4));
+        int month = Integer.parseInt(date.substring(5,7));
+        int day = Integer.parseInt(date.substring(8,10));
+        int hour = Integer.parseInt(date.substring(11,13));
+        int min = Integer.parseInt(date.substring(14,16));
+        int sec = Integer.parseInt(date.substring(17,19));
+        c.set(year, month, day, hour, min, sec);
+        return c.getTimeInMillis();
     }
+
 }

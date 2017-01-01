@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,11 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initText(){
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+        //显示上次的密码
         String sharedPassword = pref.getString("password","ERROR");
-        long sharedDate = pref.getLong("date", 0);
         sPasswordText.setText(sharedPassword);
-        long currentTime = new Date(System.currentTimeMillis()).getTime();
-        sUsableText.setText(currentTime >= sharedDate ? "密码过期" : "密码有效");
+        //显示密码状态
+        long sharedLong = pref.getLong("date", 0);
+        long currentLong = Calendar.getInstance().getTimeInMillis();
+        sUsableText.setText(currentLong >= sharedLong ? "密码过期" : "密码有效");
+        Log.i(TAG, "initText: currentTime = " + currentLong);
+        Log.i(TAG, "initText: sharedTime = " + sharedLong);
     }
 
 
