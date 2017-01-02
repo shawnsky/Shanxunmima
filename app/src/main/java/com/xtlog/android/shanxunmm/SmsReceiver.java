@@ -64,7 +64,7 @@ public class SmsReceiver extends BroadcastReceiver {
     private long getLongFromString(String date){
         Calendar c = Calendar.getInstance();
         int year = Integer.parseInt(date.substring(0,4));
-        int month = Integer.parseInt(date.substring(5,7));
+        int month = Integer.parseInt(date.substring(5,7)) - 1;
         int day = Integer.parseInt(date.substring(8,10));
         int hour = Integer.parseInt(date.substring(11,13));
         int min = Integer.parseInt(date.substring(14,16));

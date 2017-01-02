@@ -85,8 +85,14 @@ public class MainActivity extends AppCompatActivity {
         long sharedLong = pref.getLong("date", 0);
         long currentLong = Calendar.getInstance().getTimeInMillis();
         sUsableText.setText(currentLong >= sharedLong ? "密码过期" : "密码有效");
-        Log.i(TAG, "initText: currentTime = " + currentLong);
-        Log.i(TAG, "initText: sharedTime = " + sharedLong);
+
+        //测试
+        Calendar cur = Calendar.getInstance();
+        cur.setTimeInMillis(currentLong);
+        Calendar sha = Calendar.getInstance();
+        sha.setTimeInMillis(sharedLong);
+        Log.i(TAG, "initText: currentTime = " + cur.toString());
+        Log.i(TAG, "initText: sharedTime = " + sha.toString());
     }
 
 
