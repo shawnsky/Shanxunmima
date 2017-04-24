@@ -38,9 +38,20 @@ public class SmsReceiver extends BroadcastReceiver {
                     msg[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                 }
 
+                String password="",dateStr="";
+
                 SmsMessage sx = msg[0];//获取闪讯短信
-                String password = sx.getDisplayMessageBody().substring(18,24);
-                String dateStr = sx.getDisplayMessageBody().substring(28,47);
+                if(sx.getDisplayMessageBody().length()<23){
+                    password = "ERROR";
+                }
+                else if(sx.getDisplayMessageBody().length()<46){
+                    dateStr = "密码状态获取失败";
+                }
+                else{
+                    password = sx.getDisplayMessageBody().substring(18,24);
+                    dateStr = sx.getDisplayMessageBody().substring(28,47);
+                }
+
                 long date = getLongFromString(dateStr);
                 //保存数据
                 SharedPreferences.Editor editor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit();
@@ -48,13 +59,10 @@ public class SmsReceiver extends BroadcastReceiver {
                 editor.putLong("date", date);
                 editor.apply();
 
-
                 //更新UI
                 abortBroadcast();
                 MainActivity.sPasswordText.setText(password);
                 MainActivity.sUsableText.setText("密码有效");
-
-
 
 
             }
