@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by admin on 2016/12/30.
@@ -41,16 +43,14 @@ public class SmsReceiver extends BroadcastReceiver {
                 String password="",dateStr="";
 
                 SmsMessage sx = msg[0];//获取闪讯短信
-                if(sx.getDisplayMessageBody().length()<23){
-                    password = "ERROR";
-                }
-                else if(sx.getDisplayMessageBody().length()<46){
-                    dateStr = "密码状态获取失败";
-                }
-                else{
-                    password = sx.getDisplayMessageBody().substring(18,24);
-                    dateStr = sx.getDisplayMessageBody().substring(28,47);
-                }
+                String body = sx.getDisplayMessageBody();
+                Pattern p1 = Pattern.compile("\\d{6}");
+                Pattern p2 = Pattern.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}");
+                Matcher m1 = p1.matcher(body);
+                Matcher m2 = p2.matcher(body);
+                if(m1.find()) password = m1.group(); else password = "ERROR";
+                if(m2.find()) dateStr = m2.group(); else dateStr = "2050-01-01 00:00:00";
+
 
                 long date = getLongFromString(dateStr);
                 //保存数据
