@@ -44,25 +44,29 @@ public class SmsReceiver extends BroadcastReceiver {
 
                 SmsMessage sx = msg[0];//获取闪讯短信
                 String body = sx.getDisplayMessageBody();
-                Pattern p1 = Pattern.compile("\\d{6}");
-                Pattern p2 = Pattern.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}");
-                Matcher m1 = p1.matcher(body);
-                Matcher m2 = p2.matcher(body);
-                if(m1.find()) password = m1.group(); else password = "ERROR";
-                if(m2.find()) dateStr = m2.group(); else dateStr = "2050-01-01 00:00:00";
+                String number = sx.getDisplayOriginatingAddress();
+                if(number.equals("106593005")){
+                    Pattern p1 = Pattern.compile("\\d{6}");
+                    Pattern p2 = Pattern.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}");
+                    Matcher m1 = p1.matcher(body);
+                    Matcher m2 = p2.matcher(body);
+                    if(m1.find()) password = m1.group(); else password = "ERROR";
+                    if(m2.find()) dateStr = m2.group(); else dateStr = "2050-01-01 00:00:00";
 
 
-                long date = getLongFromString(dateStr);
-                //保存数据
-                SharedPreferences.Editor editor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit();
-                editor.putString("password", password);
-                editor.putLong("date", date);
-                editor.apply();
+                    long date = getLongFromString(dateStr);
+                    //保存数据
+                    SharedPreferences.Editor editor = context.getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+                    editor.putString("password", password);
+                    editor.putLong("date", date);
+                    editor.apply();
 
-                //更新UI
-                abortBroadcast();
-                MainActivity.sPasswordText.setText(password);
-                MainActivity.sUsableText.setText("密码有效");
+                    //更新UI
+                    abortBroadcast();
+                    MainActivity.sPasswordText.setText(password);
+                    MainActivity.sUsableText.setText("密码有效");
+
+                }
 
 
             }
